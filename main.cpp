@@ -234,7 +234,7 @@ void test_operator_eq()
 void test_get_elem()
 {
     try {
-        m_vector<int> a{4,5,6,3};
+        m_vector<int> a{4,5,99,3};
         cout << MESSAGE << a << endl;
         int get_elem = a.get_elem(2);
         cout << MESSAGE << "get_elem:" << get_elem << endl;
