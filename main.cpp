@@ -25,13 +25,13 @@ void test_to_array_empty();
 
 int main()
 {
-//    test_to_array_empty();
+    test_to_array_empty();
 //    test_constructor();
 //   test_copy();
 //    test_transfer();
 //    test_init_list();
 //    test_set_elem();
-//  test_get_elem();
+  test_get_elem();
 //    test_operator_eq();
 //    test_to_array();
 //    test_cout();
