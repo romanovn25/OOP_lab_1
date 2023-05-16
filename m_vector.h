@@ -26,13 +26,13 @@ public:
         bool operator ==(Iterator &b);
         bool operator !=(Iterator &b);
     };
-    m_vector(int length); // Конструктор по длине
-    m_vector(const m_vector<Type> &vect); // Копирование
-    m_vector(m_vector<Type> &&vect); // Перенос ака move(a2)
-    explicit m_vector(std::initializer_list<Type> lst); // конструктор со списком инициализации // [!] Дыра в безопаности
-    ~m_vector(); // Деструктор, удаление вектора
-    m_vector<Type> &operator =(const m_vector<Type> &lst); // Присваивание вектора другому вектору
-    Type &operator[](int index); // получить элемент как массив a[1]
+    m_vector(int length);
+    m_vector(const m_vector<Type> &vect);
+    m_vector(m_vector<Type> &&vect);
+    explicit m_vector(std::initializer_list<Type> lst);
+    ~m_vector();
+    m_vector<Type> &operator =(const m_vector<Type> &lst);
+    Type &operator[](int index);
     int get_length() const;
     void set_elem(int index, const Type &elem);
     Type &get_elem(int index);
@@ -299,7 +299,7 @@ m_vector<Type> &m_vector<Type>::operator=(const m_vector<Type> &lst)
         for(int i = 0; i < lst.amount; i++)
             m_vec[i] = lst.m_vec[i];
 
-        return *this; // возвращает объект, который сгенерировал вызов
+        return *this;
     } catch (std::bad_alloc const&){
         throw m_vectorException("bad alloc");
     }

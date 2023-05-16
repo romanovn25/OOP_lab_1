@@ -21,22 +21,24 @@ void test_multiple_solo();
 void test_devide_solo();
 void test_iterator();
 void test_eq();
+void test_to_array_empty();
 
 int main()
 {
+//    test_to_array_empty();
 //    test_constructor();
 //   test_copy();
 //    test_transfer();
 //    test_init_list();
 //    test_set_elem();
-//    test_get_elem();
+//  test_get_elem();
 //    test_operator_eq();
 //    test_to_array();
 //    test_cout();
 //    test_sub();
 //    test_multiple();
 //    test_devide();
-//    test_plus();
+    test_plus();
 //    test_minus();
 //    test_multiple_solo();
 //    test_devide_solo();
@@ -74,7 +76,7 @@ void test_iterator()
         m_vector<int> a2{4,5,6,3};
         m_vector<int>::Iterator it2 = a2.iterator_end();
         cout << MESSAGE << it2.value() << endl;
-        cout << MESSAGE << (it == it2) << endl;
+        cout << MESSAGE << (it == it) << endl;
         cout << MESSAGE << (it != it2) << endl;
         m_vector<int> vec{};
         m_vector<int> move = std::move(vec);
@@ -94,6 +96,7 @@ void test_devide_solo()
         cout << MESSAGE << a2 << endl;
         m_vector<int> a3{};
         m_vector<int> a4 = a3 / 4;
+        a /= 0;
         cout << MESSAGE << a4 << endl;
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
@@ -118,7 +121,7 @@ void test_minus()
 {
     try {
         m_vector<int> a1{4,5,6,3,4};
-        m_vector<int> a2{4,5,6,3};
+        m_vector<int> a2{4,5,9,3};
         m_vector<int> a3 = a1 - a2;
         cout << MESSAGE << a3 << endl;
         m_vector<int> a4{};
@@ -133,8 +136,10 @@ void test_plus()
 {
     try {
         m_vector<int> a1{4,5,6,3};
-        m_vector<int> a2{4,5,6,3};
+        m_vector<int> a2{4,5,9,3};
         m_vector<int> a3 = a1 + a2;
+        cout << MESSAGE << a3 << endl;
+        a3 += a1;
         cout << MESSAGE << a3 << endl;
         m_vector<int> a4{};
         m_vector<int> a5 = a1 + a4;
@@ -187,7 +192,7 @@ void test_sub()
         cout << MESSAGE << a << endl;
         m_vector<int> a2{};
         a -= a2;
-        cout << MESSAGE << a << endl;
+        cout << MESSAGE << a << endl;        
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
@@ -238,6 +243,8 @@ void test_get_elem()
         cout << MESSAGE << a << endl;
         int get_elem = a.get_elem(2);
         cout << MESSAGE << "get_elem:" << get_elem << endl;
+        a.get_elem(2) = 99;
+        cout << a << endl;
         get_elem = a.get_elem(-2);
         cout << MESSAGE << "get_elem:" << get_elem << endl;
         // вывести массив со значением
@@ -319,6 +326,21 @@ void test_set_elem()
         cout << MESSAGE << a2 << endl;
 //        a.set_elem(99, 45);
 //        cout << MESSAGE << a << endl;
+    } catch(m_vectorException &e) {
+        cout << "Exception says: " << e.what() << endl;
+    }
+}
+
+void test_to_array_empty()
+{
+    try {
+        m_vector<int> a{};
+        int *arr = a.to_array();
+        cout << MESSAGE << a.get_length() << endl;
+        for(int i = 0; i < a.get_length(); i++)
+            cout << MESSAGE << *(arr + i) << endl;
+        cout << MESSAGE << a << endl;
+        delete[] arr;
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
