@@ -1,6 +1,7 @@
 #include <iostream>
 #include <m_vector.h>
 #define MESSAGE endl << "[m_vector::" << __FUNCTION__ << "]" << endl
+
 using namespace std;
 
 void test_set_elem();
@@ -21,27 +22,29 @@ void test_multiple_solo();
 void test_devide_solo();
 void test_iterator();
 void test_eq();
+void test();
 
 int main()
 {
-//    test_constructor();
-//   test_copy();
-//    test_transfer();
-//    test_init_list();
-//    test_set_elem();
-//    test_get_elem();
-//    test_operator_eq();
-//    test_to_array();
-//    test_cout();
-//    test_sub();
-//    test_multiple();
-//    test_devide();
-//    test_plus();
-//    test_minus();
-//    test_multiple_solo();
-//    test_devide_solo();
-//    test_iterator();
-//    test_eq();
+    test();
+    test_constructor();
+    test_copy();
+    test_transfer();
+    test_init_list();
+    test_set_elem();
+    test_get_elem();
+    test_operator_eq();
+    test_to_array();
+    test_cout();
+    test_sub();
+    test_multiple();
+    test_devide();
+    test_plus();
+   test_minus();
+   test_multiple_solo();
+    test_devide_solo();
+    test_iterator();
+    test_eq();
     return 0;
 }
 
@@ -67,7 +70,10 @@ void test_iterator()
 {
     try {
         m_vector<int> a{4,5,6,3};
+        m_vector<int> b{4,5,6,3};
         m_vector<int>::Iterator it = a.iterator_begin();
+        m_vector<int>::Iterator it3 = b.iterator_begin();
+        cout << MESSAGE << "!!!!!!!!!" << (it != it3) << endl;
         cout << MESSAGE << it.value() << endl;
         cout << MESSAGE << *it << endl;
         cout << MESSAGE << (++it).value() << endl;
@@ -90,7 +96,7 @@ void test_devide_solo()
 {
     try {
         m_vector<int> a{4,5,6,3};
-        m_vector<int> a2 = a / 4;
+        m_vector<int> a2 = a / 4;   // !
         cout << MESSAGE << a2 << endl;
         m_vector<int> a3{};
         m_vector<int> a4 = a3 / 4;
@@ -234,13 +240,12 @@ void test_operator_eq()
 void test_get_elem()
 {
     try {
-        m_vector<int> a{4,5,99,3};
+        m_vector<int> a{4,5,6,3};
         cout << MESSAGE << a << endl;
         int get_elem = a.get_elem(2);
         cout << MESSAGE << "get_elem:" << get_elem << endl;
         get_elem = a.get_elem(-2);
         cout << MESSAGE << "get_elem:" << get_elem << endl;
-        // вывести массив со значением
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
@@ -261,17 +266,9 @@ void test_init_list()
 void test_transfer()
 {
     try{
-        m_vector<int> a1{1,2};
-        m_vector<int> a2 = std::move(a1);
-        cout << MESSAGE << a1 << endl;
-
-        m_vector<int> a4{3,4};
-        a2 = std::move(a4);
-        cout << MESSAGE << a4 << endl;
-
-        m_vector<int> a3(1);
-        a2 = std::move(a3);
-        cout << MESSAGE << a3 << endl;
+        m_vector<int> a(2);
+        m_vector<int> a2 = std::move(a);
+        cout << MESSAGE << a2 << endl;
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
@@ -280,15 +277,9 @@ void test_transfer()
 void test_copy()
 {
     try{
-        m_vector<int> a{3, 4};
-        m_vector<int> a_2(0);
-
+        m_vector<int> a(2);
         m_vector<int> a2 = a;
         cout << MESSAGE << a2 << endl;
-        a2 = a_2;
-        cout << MESSAGE << a2 << endl;
-
-
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
@@ -300,10 +291,22 @@ void test_constructor()
         m_vector<int> a(2);
         cout << MESSAGE << a << endl;
         m_vector<int> a1(-1);
-        m_vector<int> a2(0); // не доходит до сюда
+        m_vector<int> a2(0);
     } catch(m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
+}
+
+void test()
+{
+    m_vector<int> a(2);
+    a[0] = 10;
+    try {
+        cout << a[0] << a[-1] << endl;
+    } catch (m_vectorException &e) {
+        cout << "Exception says: " << e.what() << endl;
+    }
+
 }
 
 void test_set_elem()
@@ -315,7 +318,7 @@ void test_set_elem()
         cout << MESSAGE << a << endl;
         m_vector<int> a2{};
         cout << MESSAGE << a2 << endl;
-        a2.set_elem(-9, 45);
+        a2.set_elem(0, 45);
         cout << MESSAGE << a2 << endl;
 //        a.set_elem(99, 45);
 //        cout << MESSAGE << a << endl;
