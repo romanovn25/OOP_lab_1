@@ -26,16 +26,16 @@ public:
         bool operator ==(Iterator &b);
         bool operator !=(Iterator &b);
     };
-    m_vector(int length); // Конструктор по длине
-    m_vector(const m_vector<Type> &vect); // Копирование
-    m_vector(m_vector<Type> &&vect); // Перенос ака move(a2)
-    explicit m_vector(std::initializer_list<Type> lst); // конструктор со списком инициализации // [!] Дыра в безопаности
-    ~m_vector(); // Деструктор, удаление вектора
-    m_vector<Type> &operator=(const m_vector<Type> &lst); // Присваивание вектора другому вектору
-    Type &operator[](int index) const; // получить элемент как массив a[1]
+    m_vector(int length);
+    m_vector(const m_vector<Type> &vect);
+    m_vector(m_vector<Type> &&vect);
+    explicit m_vector(std::initializer_list<Type> lst);
+    ~m_vector();
+    m_vector<Type> &operator=(const m_vector<Type> &lst);
+    Type &operator[](int index) const;
     int get_length() const;
     void set_elem(int index, const Type &elem);
-    Type &get_elem(int index);
+    Type &get_elem(int index) const;
     Type *to_array();
     template <class X> friend std::ostream &operator<<(std::ostream &os, const m_vector<X> &lst);
     m_vector<Type> &operator+=(const m_vector<Type> &vect);
@@ -210,7 +210,7 @@ Type *m_vector<Type>::to_array()
 }
 
 template<typename Type>
-Type &m_vector<Type>::get_elem(int index)
+Type &m_vector<Type>::get_elem(int index) const
 {
     if(index < 0 || amount <= index)
         throw m_vectorException("Wrong index of m_vector");
@@ -220,9 +220,7 @@ Type &m_vector<Type>::get_elem(int index)
 template<typename Type>
 void m_vector<Type>::set_elem(int index, const Type &elem)
 {
-    if(index < 0 || amount <= index)
-        throw m_vectorException("Wrong index of m_vector");
-    m_vec[index] = elem;
+    get_elem(index) = elem;
 }
 
 template<typename Type>
@@ -271,9 +269,9 @@ m_vector<Type>::m_vector(m_vector<Type> &&vect)
 template<typename Type>
 m_vector<Type>::m_vector(std::initializer_list<Type> lst) : amount(lst.size())
 {
+    if(amount < 0)
+        throw m_vectorException("Bad length of m_vector");
     try{
-        if(amount < 0)
-            throw m_vectorException("Bad length of m_vector");
         m_vec = new Type[amount]{};
         int i = 0;
         for(Type item : lst)
@@ -294,25 +292,15 @@ m_vector<Type>::~m_vector()
 template<typename Type>
 m_vector<Type> &m_vector<Type>::operator=(const m_vector<Type> &lst)
 {
-    // m_vector<int> a = m_vector<int> b(5);
-    try {
-        m_vec = new Type[lst.amount]{};
-        amount = lst.amount;
-        for(int i = 0; i < lst.amount; i++)
-            m_vec[i] = lst.m_vec[i];
-        return *this; // возвращает объект, который сгенерировал вызов
-    } catch (std::bad_alloc const&){
-        m_vec = nullptr;
-        throw m_vectorException("bad alloc");
-    }
+    m_vector<Type> local(lst);
+    *this = local;
+    return *this;
 }
 
 template<typename Type>
 Type &m_vector<Type>::operator[](int index) const
 {
-    if(index < 0 || amount <= index)
-        throw m_vectorException("Wrong index of m_vector");
-    return *(m_vec + index);
+    return get_elem(index);
 }
 
 #endif // M_VECTOR_H

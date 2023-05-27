@@ -302,7 +302,7 @@ void test()
     m_vector<int> a(2);
     a[0] = 10;
     try {
-        cout << a[0] << a[-1] << endl;
+        cout << a[0] << endl << a[-1] << endl;
     } catch (m_vectorException &e) {
         cout << "Exception says: " << e.what() << endl;
     }
